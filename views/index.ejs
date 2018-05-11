@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title><%= title %></title>
+
+        <!-- include bootstrap ! -->
+           <!--  <link rel="stylesheet" href="/vendor/bootstrap.css">
+            <script type="text/javascript" src="/vendor/bootstrap.js"></script> -->
+        <!-- - -->
+
+        <!-- include google blockly ! -->
+            <script type="text/javascript" src="/javascripts/blockly_compressed.js"></script>
+            <script type="text/javascript" src="/javascripts/blocks_compressed.js"></script>
+            <script type="text/javascript" src="/javascripts/en.js"></script>
+        <!-- - -->
+
+        <!-- include jquery ! -->
+            <link rel="stylesheet" type="text/css" href="/jquery/jquery-ui.css">
+            <script type="text/javascript" src="/jquery/jquery.js"></script>
+            <script type="text/javascript" src="/jquery/jquery-ui.js"></script>
+        <!-- - -->
+
+        <!-- include my resource !-->
+            <link rel='stylesheet' href="/my_resource/style.css" />
+            <script type="text/javascript" src="/my_resource/my_func.js"></script>
+        <!-- - -->
+
+        <!-- customizing ... !-->
+            <script type="text/javascript">
+                $(init);
+                
+                function init(){
+                    $(".component").draggable({
+                        helper:"clone"
+                    });
+
+                    $("#design").droppable({
+                        drop:function(event, ui){
+                            if ($(ui.draggable).hasClass("designed")) {
+                                return;
+                            }
+
+                            var left = ui.position.left - $("#tool").width() - parseInt($('#tool').css('left'), 10);
+                            var top = ui.position.top; 
+                            if (left < 0) left = 0;
+                            if (top < 0) top = 0;
+
+                            var componentType = "";
+                            if (ui.helper.hasClass("label")) componentType = "label";
+                            if (ui.helper.hasClass("text-field")) componentType = "text-field";
+                            if (ui.helper.hasClass("button")) componentType = "button";
+
+                            var html = getComponentHtml(componentType, top, left, true);
+                            $(this).append(html);
+
+                            //make sure component with suitable width, height, position
+                            $(".designed").resizable({
+                                resize: function(event, ui){}
+                            });
+
+                            //need to check posstion after dragging
+                            $(".designed").draggable();
+
+                            $(".designed").click(function() {
+                                var table = $("#property-table");
+                                var properties = getProperties($(this));
+                                addPropertiesToTable(table, properties);
+                            });
+                        }
+                    });
+
+                    $("#design").focus(function(){
+                        alert("test");
+                    });
+                }
+            </script>
+        <!-- - -->
+    </head>
+    <body>
+        <div id="container">
+            <div id="tool">
+                <script type="text/javascript">
+                    $("#tool").append(getComponentHtml("label", 0, 0));
+                    $("#tool").append(getComponentHtml("text-field", $(".component").height() + 4, 0));
+                    $("#tool").append(getComponentHtml("button", $(".component").height() * 2 + 8, 0));
+                </script>
+            </div>
+            <div id="property">
+                <table id="property-table" style="width:100%" border>
+                    <col width="100">
+                    <thead>
+                        <tr>
+                            <th>property</th>
+                            <th>value</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div id="design">
+            </div>
+            <div id="button-group">
+                <button id="btnCompile" type="button">Compile</button>
+                <a href="/download/template.zip" target="_blank">
+                    <button id="btnDownload">Download</button>
+                </a>
+            </div>
+            <div id="blockly">
+            </div>
+        </div>
+        <xml id="toolbox" style="display: none">
+            <!-- <category name="Type" colour="20">
+                <block type="type_int"></block>
+                <block type="type_double"></block>
+                <block type="type_bool"></block>
+                <block type="type_string"></block>
+            </category> -->
+             <category name="Variable" colour="65" custom="VARIABLE_DYNAMIC"></category>
+            <category name="Function" colour="120" custom="PROCEDURE"></category>
+            <category name="Array" colour="160">
+                <block type="array_create_empty"></block>
+                <block type="array_create_repeat"></block>
+                <block type="array_concatenate"></block>
+                <block type="array_get_length"></block>
+                <block type="array_check_empty"></block>
+               <!--  <block type="array_insert_at_index"></block>
+                <block type="array_append"></block>
+                <block type="array_remove_at_index"></block> -->
+            </category>
+            <category name="Math" colour="210">
+                <block type="math_number"></block>
+                <block type="math_arithmetic"></block>
+                <block type="math_single"></block>
+            </category>
+            <category name="Text" colour="230">
+                <block type="text"></block>
+                <block type="text_length"></block>
+                <block type="text_print"></block>
+            </category>
+            <sep></sep>
+            <category name="Logic" colour="260">
+                <block type="logic_boolean"></block>
+                <block type="logic_if"></block>
+                <block type="logic_switch"></block>
+                <block type="logic_switch_fallthrough"></block>
+                <block type="logic_compare"></block>
+                <block type="logic_operation"></block>
+                <block type="logic_negate"></block>
+            </category>
+            <category name="Loop" colour="290">
+                <block type="controls_repeat_ext"></block>
+                <block type="controls_repeat"></block>
+                <block type="controls_whileUntil"></block>
+                <block type="controls_for"></block>
+                <block type="controls_forEach"></block>
+                <block type="controls_flow_statements"></block>
+            </category>
+            <sep></sep>
+            <category name="Label" colour="290"></category>
+            <category name="Text-field" colour="290"></category>
+            <category name="Button" colour="290"></category>
+        </xml>
+        <script>
+            var workspacePlayground = Blockly.inject('blockly',
+                {toolbox: document.getElementById('toolbox')});
+        </script>
+    </body>
+</html>

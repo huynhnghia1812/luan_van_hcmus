@@ -1,0 +1,94 @@
+#container{
+  width: 1220px;
+  height: 620px;
+  position: relative;
+  margin-left: 20px;
+  margin-top: 10px;
+  border: solid 1px;
+}
+
+/*----------------------------------------------*/
+#tool{
+  width: 220px;
+  height: 380px;
+  position: absolute;
+  top: 3px;
+  left: 5px;
+  border: solid 1px;
+}
+
+.component{
+  width: 150px;
+  height: 20px;
+  border: solid 1px;
+  position: absolute;
+}
+
+.label{
+  background-color: yellow;
+}
+
+.text-field{
+  background-color: blue;
+}
+
+.button{
+  background-color: green;
+}
+
+/*----------------------------------------------*/
+#property{
+  width: 220px;
+  height: 220px;
+  position: absolute;
+  top: 390px;
+  left: 5px;
+  border: solid 1px;
+  overflow-y: scroll; 
+}
+
+/*----------------------------------------------*/
+#design{
+  width: 320px;
+  height: 568px;
+  position: absolute;
+  top: 3px;
+  left: 230px;
+  border: solid 1px;
+}
+
+/*----------------------------------------------*/
+#button-group{
+  width: 320px;
+  height: 40px;
+  position: absolute;
+  top: 575px  ;
+  left: 230px;
+  border: solid 1px;
+}
+
+#btnCompile{
+  width: 80px;
+  height: 25px;
+  position: absolute;
+  top: 7px;
+  left: 10px;
+}
+
+#btnDownload{
+  width: 80px;  
+  height: 25px;
+  position: absolute;
+  top: 7px;
+  left: 95px;
+}
+
+/*----------------------------------------------*/
+#blockly{
+  width: 650px;
+  height: 610px;
+  position: absolute;
+  top: 3px;
+  left: 560px;
+  border: solid 1px;
+}
